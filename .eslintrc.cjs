@@ -16,11 +16,10 @@ module.exports = {
     sourceType: 'module', // 모듈 시스템 사용시
   },
   rules: {
-    // indent: ['error', 2], 누구는 eslint-config-prettier 충돌을 막는다는데
-    // indent의 경우는 그냥 rule를 꺼버리는게 나아요.
-    // 계속 충돌되요 fix eslint <-> fix prettier
     // extends에서 적용한 룰셋을 덮어씌울 수 있습니다.
     // '@typescript-eslint/explicit-function-return-type': 'off',
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-unused-vars': 'off',
     'prettier/prettier': [
       //포매팅을 해줄 prettier 설정파일을 만듭니다.
       'error',

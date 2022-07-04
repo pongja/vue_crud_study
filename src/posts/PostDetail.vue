@@ -38,10 +38,14 @@ const id = route.params.id;
  * ref 장점
  * 한꺼번에 객체할당가능
  */
-const post = ref({});
+const post = ref({
+  title: null,
+  content: null,
+  createdAt: null,
+});
 
 const props = defineProps({
-  id: Number,
+  id: String,
 });
 
 console.log('post:', getPostByID(props.id));
@@ -64,7 +68,7 @@ fetchPost();
 const remove = async () => {
   try {
     if (confirm('삭제하시겠습니까?')) {
-      await deletePost(id);
+      await deletePost(props.id);
       router.push({ name: 'postList' });
     }
   } catch (error) {

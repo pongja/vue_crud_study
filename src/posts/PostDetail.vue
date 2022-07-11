@@ -45,7 +45,7 @@ const post = ref({
 });
 
 const props = defineProps({
-  id: String,
+  id: [String, Number],
 });
 
 console.log('post:', getPostByID(props.id));

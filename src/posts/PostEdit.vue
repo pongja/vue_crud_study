@@ -14,6 +14,8 @@
         <button class="btn btn-primary">수정</button>
       </template>
     </PostForm>
+    <!-- <AppAlert :show="showAlert" :messeage="alertMessage" :type="alertType" /> -->
+    <AppAlert :items="alerts" />
   </div>
 </template>
 
@@ -22,6 +24,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { getPostByID, updataPost } from '@/apiPost/posts';
 import { ref } from 'vue';
 import PostForm from '@/components/posts/PostForm.vue';
+import AppAlert from '@/components/AppAlert.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -38,21 +41,23 @@ const fetchPost = async () => {
     setForm(data); //어떠한 데이터가 올줄모르니 정확한데이터를 받기위한 분해할당
   } catch (error) {
     console.log(error);
+    vAlert(error.message);
   }
 };
-const setForm = ({ title, content, createdAt }) => {
+const setForm = ({ title, content }) => {
   //원하는 데이터
   form.value.title = title;
   form.value.content = content;
-  form.value.createdAt = createdAt;
 };
 fetchPost();
 const edit = async () => {
   try {
     await updataPost(id, { ...form.value });
+    vAlert('수정이 완료되었습니다.', 'success');
     router.push({ name: 'postDetail', params: { id } });
   } catch (error) {
     console.log(error);
+    vAlert('수정실패!!');
   }
 };
 const goDetail = () =>
@@ -60,6 +65,16 @@ const goDetail = () =>
     name: 'postDetail',
     params: { id },
   });
+//alert
+
+const alerts = ref([]);
+const vAlert = (message, type = 'error') => {
+  alerts.value.push({ message, type });
+
+  setTimeout(() => {
+    alerts.value.shift();
+  }, 2000);
+};
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped></style>
